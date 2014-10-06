@@ -61,8 +61,15 @@ copy_file '.gitignore'
 
 inside "app" do
   inside "assets" do
+    inside "stylesheets" do
+      remove_file "application.css"
+      copy_file "application.css.scss"
+    end
+
     inside "javascripts" do
-      insert_into_file 'application.js', "//= require services\n//= require_tree ./services\n", before: "//= require_tree ."
+      insert_into_file 'application.js', after: "//= require turbolinks\n" do
+        "//= require bootstrap\n//= require services\n//= require_tree ./services\n"
+      end
 
       copy_file "services.js.coffee"
       inside "services" do
@@ -84,6 +91,10 @@ inside "config" do
   remove_file "database.yml"
   template "database.yml.example"
   run "cp database.yml.example database.yml"
+  insert_into_file 'application.rb', after: "# config.i18n.default_locale = :de\n" do
+    "\n\t\tconfig.assets.precompile += %w( .svg .eot .woff .ttf email.css bootstrap.css )
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')\n"
+  end
 end
 
 inside app_name do
