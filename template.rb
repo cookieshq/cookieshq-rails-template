@@ -6,7 +6,7 @@ def source_paths
 end
 
 # Specify Ruby version
-insert_into_file 'Gemfile', "\nruby '2.0.0'", after: "source 'https://rubygems.org'\n"
+insert_into_file 'Gemfile', "\nruby '2.1.0'", after: "source 'https://rubygems.org'\n"
 
 # Change sqlite3 for pg
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
@@ -14,15 +14,18 @@ gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 
 uncomment_lines "Gemfile", /capistrano-rails/
 
-gem 'devise'
+install_devise = yes?("Do you want to install Devise? [y/N]")
+gem 'devise' if install_devise
+
+heroku_deploy = yes?("Do you need to deploy this app in Heroku? [y/N]")
+gem 'rails_12factor', group: :production if heroku_deploy
+
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'airbrake'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'paperclip'
-# gem 'validates_email_format_of'
-# gem 'jquery-ui-rails' if yes?("Do you want to install jquery-ui-rails? (yes/no)")
 
 gem_group :development do
   gem 'capistrano'
@@ -82,6 +85,19 @@ inside "config" do
   template "database.yml.example"
   run "cp database.yml.example database.yml"
 end
+
+inside app_name do
+  run 'bundle install'
+end
+
+if install_devise
+  generate "devise:install"
+
+  generate_devise_user = yes?("Do you want to create a devise user class? [y/N]")
+  generate "devise user" if generate_devise_user
+end
+
+def run_bundle ; end
 
 git :init
 git add: "."

@@ -51,15 +51,17 @@ On the test group:
 
 Also it:
 
+* Sets ruby 2.0.0 at the top of your Gemfile
 * Generates a `.gitignore` file with some common files and folders that we add.
 * Puts in an `layouts/application.html.erb` equivalent written in HAML.
 * Puts in a default skeleton for JS code organization, as per told in [this post](http://cookieshq.co.uk/posts/write-maintainable-javascript-in-rails/)
-* Puts in a database.yml file adapted to PostgreSQL.
+* Puts in the `database.yml` file adapted to PostgreSQL.
 
 Working on/ TODO
 ================
 
-1. Make the template ask for Devise Installation instead of doing it by default
-2. Make the template ask for a devise default model after bundling.
-3. Make the template ask if Heroku deployment is wanted and make it [prepare the asset pipeline](https://devcenter.heroku.com/articles/rails-4-asset-pipeline) if so
-* Make the template run install scripts/generators after bundler.
+1. [x] Make the template ask for Devise Installation instead of doing it by default
+2. [x] Make the template ask for a devise default model after bundling.
+3. [x] Make the template ask if Heroku deployment is wanted and make it [prepare the asset pipeline](https://devcenter.heroku.com/articles/rails-4-asset-pipeline) if so
+4. [ ] Make the template run install scripts/generators after bundler for the rest of gems
+5. [ ] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))
