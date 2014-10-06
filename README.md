@@ -16,8 +16,8 @@ Installs the following gems:
 * pg to use PostgreSQL with Active Record
 * Devise
 * Haml-rails
-* Bootstrap-sass'
-* Simple_form'
+* Bootstrap-sass
+* Simple_form
 * Airbrake
 * Active Admin
 * Paperclip
@@ -52,8 +52,9 @@ On the test group:
 Also it:
 
 * Generates a `.gitignore` file with some common files and folders that we add.
-* Puts in an `layouts/application.html.erb` equivalent written in HAML
+* Puts in an `layouts/application.html.erb` equivalent written in HAML.
 * Puts in a default skeleton for JS code organization, as per told in [this post](http://cookieshq.co.uk/posts/write-maintainable-javascript-in-rails/)
+* Puts in a database.yml file adapted to PostgreSQL.
 
 Working on/ TODO
 ================
