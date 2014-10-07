@@ -15,16 +15,18 @@ gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 uncomment_lines "Gemfile", /capistrano-rails/
 
 install_devise = yes?("Do you want to install Devise? [y/N]")
-gem 'devise' if install_devise
-
+install_active_admin = yes?("Do you want to install Active Admin? [y/N]")
 heroku_deploy = yes?("Do you need to deploy this app on Heroku? [y/N]")
+
+gem 'devise' if install_devise
 gem 'rails_12factor', group: :production if heroku_deploy
 
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'airbrake'
-gem 'activeadmin', github: 'gregbell/active_admin'
+
+gem 'activeadmin', github: 'gregbell/active_admin' if install_active_admin
 gem 'paperclip'
 
 gem_group :development do
@@ -131,6 +133,10 @@ end
 
 generate "simple_form:install"
 say "\nAirbrake initializer is in place, you need to set your api key in it.\n\n"
+
+if install_active_admin
+  generate "active_admin:install"
+end
 
 ######################################
 #                                    #
