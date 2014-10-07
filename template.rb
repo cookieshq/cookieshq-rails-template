@@ -5,6 +5,24 @@ def source_paths
     [File.join(File.expand_path(File.dirname(__FILE__)),'files')]
 end
 
+######################################
+#                                    #
+# Prompt the user for options        #
+#                                    #
+######################################
+install_devise       = yes?("Do you want to install Devise? [y/N]")
+generate_devise_user = yes?("Do you want to create a devise user class? [y/N]")
+install_active_admin = yes?("Do you want to install Active Admin? [y/N]")
+heroku_deploy        = yes?("Do you need to deploy this app on Heroku? [y/N]")
+install_airbrake     = yes?("Do you want to install Airbrake? [y/N]")
+say("\n\tAirbrake initializer will be set in place, you'll need to set your API_KEY in it.\n\n", "\e[33m") if install_airbrake
+
+######################################
+#                                    #
+# Gemfile manipulation               #
+#                                    #
+######################################
+
 # Specify Ruby version
 insert_into_file 'Gemfile', "\nruby '2.1.0'", after: "source 'https://rubygems.org'\n"
 
@@ -14,17 +32,13 @@ gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 
 uncomment_lines "Gemfile", /capistrano-rails/
 
-install_devise = yes?("Do you want to install Devise? [y/N]")
-install_active_admin = yes?("Do you want to install Active Admin? [y/N]")
-heroku_deploy = yes?("Do you need to deploy this app on Heroku? [y/N]")
-
 gem 'devise' if install_devise
 gem 'rails_12factor', group: :production if heroku_deploy
 
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
-gem 'airbrake'
+gem 'airbrake' if install_airbrake
 
 gem 'activeadmin', github: 'gregbell/active_admin' if install_active_admin
 gem 'paperclip'
@@ -60,11 +74,23 @@ end
 
 ######################################
 #                                    #
+# Gem installation                   #
+#                                    #
+######################################
+run 'bundle install'
+run 'bundle exec cap install'
+
+######################################
+#                                    #
 # Modification and addition of files #
 #                                    #
 ######################################
 remove_file ".gitignore"
 copy_file '.gitignore'
+uncomment_lines 'Capfile', /'capistrano\/rvm'/
+uncomment_lines 'Capfile', /'capistrano\/bundler'/
+uncomment_lines 'Capfile', /capistrano\/rails\/assets/
+uncomment_lines 'Capfile', /capistrano\/rails\/migrations/
 
 inside "app" do
   inside "assets" do
@@ -110,29 +136,15 @@ end
 
 ######################################
 #                                    #
-# Gem installation                   #
-#                                    #
-######################################
-
-inside app_name do
-  run 'bundle install'
-end
-
-######################################
-#                                    #
 # Running installed gems generators  #
 #                                    #
 ######################################
-
 if install_devise
   generate "devise:install"
-
-  generate_devise_user = yes?("Do you want to create a devise user class? [y/N]")
   generate "devise user" if generate_devise_user
 end
 
 generate "simple_form:install"
-say "\nAirbrake initializer is in place, you need to set your api key in it.\n\n"
 
 if install_active_admin
   generate "active_admin:install"
@@ -143,7 +155,6 @@ end
 # Overriding default bundle install  #
 #                                    #
 ######################################
-
 def run_bundle ; end
 
 ######################################
@@ -151,7 +162,6 @@ def run_bundle ; end
 # Initial commit of the app          #
 #                                    #
 ######################################
-
 git :init
 git add: "."
 git commit: "-a -m 'Initial commit'"
