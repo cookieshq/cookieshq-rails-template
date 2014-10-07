@@ -81,7 +81,7 @@ gem_group :test do
   gem 'email_spec'
   gem 'capybara-webkit'
   gem 'timecop'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
   gem 'formulaic'
   gem 'webmock'
   gem 'vcr'
@@ -117,7 +117,10 @@ inside "app" do
 
     inside "javascripts" do
       insert_into_file 'application.js', after: "//= require turbolinks\n" do
-        "//= require bootstrap\n//= require services\n//= require_tree ./services\n"
+        text = "//= require bootstrap\n"
+        text << "//= require services\n"
+        text << "//= require_tree ./services\n"
+        text
       end
 
       copy_file "services.js.coffee"
@@ -195,6 +198,21 @@ if install_active_admin
 end
 
 generate "rspec:install"
+
+inside "spec" do
+  insert_into_file "rails_helper.rb", after: "# Add additional requires below this line. Rails is not loaded until this point!\n" do
+    text =  "require 'capybara/rails'\n"
+    text << "require 'capybara/rspec'\n"
+    text << "require 'capybara/email/rspec'\n"
+    text << "require 'database_cleaner'\n"
+    text << "require 'email_spec'\n"
+    text << "require 'shoulda/matchers'\n"
+    text << "require 'paperclip/matchers'\n"
+    text << "require 'webmock/rspec'\n"
+    text << "require 'vcr'\n"
+    text
+  end
+end
 
 ######################################
 #                                    #
