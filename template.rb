@@ -100,6 +100,7 @@ run 'bundle exec cap install'
 # Modification and addition of files #
 #                                    #
 ######################################
+run "rm -rf test/"
 remove_file ".gitignore"
 copy_file '.gitignore'
 uncomment_lines 'Capfile', /'capistrano\/rvm'/
