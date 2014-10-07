@@ -130,9 +130,24 @@ inside "config" do
   remove_file "database.yml"
   template "database.yml.example"
   run "cp database.yml.example database.yml"
+
   insert_into_file 'application.rb', after: "# config.i18n.default_locale = :de\n" do
-    "\n\t\tconfig.assets.precompile += %w( .svg .eot .woff .ttf email.css bootstrap.css )
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')\n"
+    <<-APP
+    config.generators do |g|
+      g.test_framework :rspec,
+       fixtures: true,
+       view_specs: false,
+       helper_specs: false,
+       routing_specs:    false,
+       controller_specs: true,
+       request_specs:    true
+
+      g.fixture_replacement :factory_girl, dir: "spec/factories"
+    end
+
+    config.assets.precompile += %w( .svg .eot .woff .ttf email.css bootstrap.css )
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+    APP
   end
 
   inside "initializers" do
@@ -141,7 +156,13 @@ inside "config" do
 
   inside "environments" do
     insert_into_file 'development.rb', after: "config.action_mailer.raise_delivery_errors = false\n" do
-      "\n\t# Action Mailer default options\n\tconfig.action_mailer.default_url_options = { host: 'localhost', port: 3000 }\n\n\t# Letter Opener gem configuration\n\tconfig.action_mailer.delivery_method = :letter_opener\n"
+      <<-DEV
+      # Action Mailer default options
+      config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+      # Letter Opener gem configuration
+      config.action_mailer.delivery_method = :letter_opener
+      DEV
     end
   end
 end
