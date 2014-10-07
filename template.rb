@@ -30,7 +30,7 @@ say("\n\tAirbrake initializer will be set in place, you'll need to set your API_
 ######################################
 
 # Specify Ruby version
-insert_into_file 'Gemfile', "\nruby '2.1.0'", after: "source 'https://rubygems.org'\n"
+insert_into_file 'Gemfile', "\nruby '2.1.3'", after: "source 'https://rubygems.org'\n"
 
 # Change sqlite3 for pg
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
