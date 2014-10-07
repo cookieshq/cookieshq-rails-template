@@ -141,7 +141,7 @@ inside "config" do
 
   inside "environments" do
     insert_into_file 'development.rb', after: "config.action_mailer.raise_delivery_errors = false\n" do
-      "\n\t# Letter Opener gem configuration\n\tconfig.action_mailer.delivery_method = :letter_opener\n"
+      "\n\t# Action Mailer default options\n\tconfig.action_mailer.default_url_options = { host: 'localhost', port: 3000 }\n\n\t# Letter Opener gem configuration\n\tconfig.action_mailer.delivery_method = :letter_opener\n"
     end
   end
 end
