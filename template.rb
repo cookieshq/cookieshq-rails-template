@@ -17,7 +17,7 @@ uncomment_lines "Gemfile", /capistrano-rails/
 install_devise = yes?("Do you want to install Devise? [y/N]")
 gem 'devise' if install_devise
 
-heroku_deploy = yes?("Do you need to deploy this app in Heroku? [y/N]")
+heroku_deploy = yes?("Do you need to deploy this app on Heroku? [y/N]")
 gem 'rails_12factor', group: :production if heroku_deploy
 
 gem 'haml-rails'
@@ -56,6 +56,11 @@ gem_group :test do
   gem 'vcr'
 end
 
+######################################
+#                                    #
+# Modification and addition of files #
+#                                    #
+######################################
 remove_file ".gitignore"
 copy_file '.gitignore'
 
@@ -97,9 +102,21 @@ inside "config" do
   end
 end
 
+######################################
+#                                    #
+# Gem installation                   #
+#                                    #
+######################################
+
 inside app_name do
   run 'bundle install'
 end
+
+######################################
+#                                    #
+# Running installed gems generators  #
+#                                    #
+######################################
 
 if install_devise
   generate "devise:install"
@@ -108,7 +125,21 @@ if install_devise
   generate "devise user" if generate_devise_user
 end
 
+generate "simple_form:install"
+
+######################################
+#                                    #
+# Overriding default bundle install  #
+#                                    #
+######################################
+
 def run_bundle ; end
+
+######################################
+#                                    #
+# Initial commit of the app          #
+#                                    #
+######################################
 
 git :init
 git add: "."
