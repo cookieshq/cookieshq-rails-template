@@ -23,6 +23,8 @@ heroku_deploy        = yes?("Do you need to deploy this app on Heroku? [y/N]")
 install_airbrake     = yes?("Do you want to install Airbrake? [y/N]")
 say("\n\tAirbrake initializer will be set in place, you'll need to set your API_KEY in it.\n\n", "\e[33m") if install_airbrake
 
+install_guard_rspec = yes?("Do you want to install Guard-Rspec? [y/N]")
+
 ######################################
 #                                    #
 # Gemfile manipulation               #
@@ -57,11 +59,11 @@ gem_group :development do
 end
 
 gem_group :development, :test do
-  gem 'factory_girl_rails'
-  gem 'faker'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'guard-rspec', require: false if install_guard_rspec
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 gem_group :test do
@@ -183,6 +185,8 @@ generate "simple_form:install"
 if install_active_admin
   generate "active_admin:install"
 end
+
+generate "rspec:install"
 
 ######################################
 #                                    #
