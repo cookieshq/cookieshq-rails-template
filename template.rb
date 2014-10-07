@@ -100,6 +100,10 @@ inside "config" do
     "\n\t\tconfig.assets.precompile += %w( .svg .eot .woff .ttf email.css bootstrap.css )
     config.assets.paths << Rails.root.join('app', 'assets', 'fonts')\n"
   end
+
+  inside "initializers" do
+    copy_file 'airbrake.rb'
+  end
 end
 
 ######################################
@@ -126,6 +130,7 @@ if install_devise
 end
 
 generate "simple_form:install"
+say "\nAirbrake initializer is in place, you need to set your api key in it.\n\n"
 
 ######################################
 #                                    #
