@@ -10,10 +10,16 @@ end
 # Prompt the user for options        #
 #                                    #
 ######################################
-install_devise       = yes?("Do you want to install Devise? [y/N]")
-generate_devise_user = yes?("Do you want to create a devise user class? [y/N]")
+install_devise = yes?("Do you want to install Devise? [y/N]")
+
+if install_devise
+  generate_devise_user  = yes?("Do you want to create a devise user class? [y/N]")
+  generate_devise_views = yes?("Do you want to generate devise views? [y/N]")
+end
+
 install_active_admin = yes?("Do you want to install Active Admin? [y/N]")
 heroku_deploy        = yes?("Do you need to deploy this app on Heroku? [y/N]")
+
 install_airbrake     = yes?("Do you want to install Airbrake? [y/N]")
 say("\n\tAirbrake initializer will be set in place, you'll need to set your API_KEY in it.\n\n", "\e[33m") if install_airbrake
 
@@ -147,7 +153,8 @@ end
 ######################################
 if install_devise
   generate "devise:install"
-  generate "devise user" if generate_devise_user
+  generate "devise user"  if generate_devise_user
+  generate "devise:views" if generate_devise_views
 end
 
 generate "simple_form:install"
