@@ -59,6 +59,7 @@ On the **test** group:
 * Capifies the project and uncomments the bundler, rvm, assets and migrations lines in capfile.
 * Edits `development.rb` to add action mailer config.
 * Edits `application.css(.scss)` and `application.js` to use `bootstrap`.
+* Adds the require lines for gems to the rails_helper created on installation.
 
 Working on/ TODO
 ================
@@ -72,5 +73,11 @@ Working on/ TODO
 7. [x] Make the template run install scripts/generators after bundler for **RSpec**
 8. [x] Make the template run install scripts/generators after bundler for **Active Admin**
 9. [x] Make the template run install scripts/generators after bundler for **Simple Form**
-10. [ ] Convert devise views to haml if they are generated.
-11. [ ] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))
+10. [x] Convert devise views to haml if they are generated.
+11. [ ] Add default config for email_spec
+12. [ ] Add default config for database_cleaner
+13. [ ] Add default config for formulaic
+14. [ ] Add default config for vcr
+15. [ ] Add default config for guard-rspec
+16. [ ] Remove warnings thrown by html2haml when converting devise templates.
+12. [ ] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))

@@ -63,6 +63,7 @@ gem_group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'letter_opener'
+  gem 'html2haml', require: false if generate_devise_views
 end
 
 gem_group :development, :test do
@@ -188,7 +189,10 @@ end
 if install_devise
   generate "devise:install"
   generate "devise user"  if generate_devise_user
-  generate "devise:views" if generate_devise_views
+  if generate_devise_views
+    generate "devise:views"
+    run "for file in app/views/devise/**/*.erb; do html2haml -e $file ${file%erb}haml && rm $file; done"
+  end
 end
 
 generate "simple_form:install"
