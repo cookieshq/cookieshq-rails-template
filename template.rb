@@ -132,6 +132,12 @@ inside "config" do
   inside "initializers" do
     copy_file 'airbrake.rb'
   end
+
+  inside "environments" do
+    insert_into_file 'development.rb', after: "config.action_mailer.raise_delivery_errors = false\n" do
+      "\n\t# Letter Opener gem configuration\n\tconfig.action_mailer.delivery_method = :letter_opener\n"
+    end
+  end
 end
 
 ######################################
