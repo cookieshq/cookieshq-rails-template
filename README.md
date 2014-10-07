@@ -21,20 +21,20 @@ What it does
 * Active Admin
 * Paperclip
 
-On the development group:
+On the **development** group:
 * Capistrano
 * Capistrano-rvm
 * Capistrano-bundler
 * Letter_opener
 
-On the test and development groups:
+On the **test** and **development** groups:
 * factory_girl_rails
 * faker
 * rspec
 * rspec-rails
 * guard-rspec
 
-On the test group:
+On the **test** group:
 * capybara
 * capybara-email
 * database_cleaner

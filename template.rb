@@ -1,8 +1,15 @@
-# Version 0.1
-
+######################################
+#                                    #
+# Auxiliar methods                   #
+#                                    #
+######################################
 def source_paths
-  Array(super) +
-    [File.join(File.expand_path(File.dirname(__FILE__)),'files')]
+  Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'files')]
+end
+
+def ask_with_default_yes(text)
+  answer = ask text
+  answer = ['n', 'N', 'no', 'No'].include?(answer) ? false : true
 end
 
 ######################################
@@ -10,20 +17,20 @@ end
 # Prompt the user for options        #
 #                                    #
 ######################################
-install_devise = yes?("Do you want to install Devise? [y/N]")
+install_devise = ask_with_default_yes("Do you want to install Devise? [Y/n]")
 
 if install_devise
-  generate_devise_user  = yes?("Do you want to create a devise user class? [y/N]")
-  generate_devise_views = yes?("Do you want to generate devise views? [y/N]")
+  generate_devise_user  = ask_with_default_yes("Do you want to create a devise user class? [Y/n]")
+  generate_devise_views = ask_with_default_yes("Do you want to generate devise views? [Y/n]")
 end
 
-install_active_admin = yes?("Do you want to install Active Admin? [y/N]")
-heroku_deploy        = yes?("Do you need to deploy this app on Heroku? [y/N]")
+install_active_admin = ask_with_default_yes("Do you want to install Active Admin? [Y/n]")
+heroku_deploy        = ask_with_default_yes("Do you need to deploy this app on Heroku? [Y/n]")
 
-install_airbrake     = yes?("Do you want to install Airbrake? [y/N]")
+install_airbrake     = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
 say("\n\tAirbrake initializer will be set in place, you'll need to set your API_KEY in it.\n\n", "\e[33m") if install_airbrake
 
-install_guard_rspec = yes?("Do you want to install Guard-Rspec? [y/N]")
+install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
 
 ######################################
 #                                    #
