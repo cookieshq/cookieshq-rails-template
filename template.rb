@@ -136,7 +136,7 @@ inside "config" do
   end
 
   inside "initializers" do
-    copy_file 'airbrake.rb'
+    copy_file 'airbrake.rb' if install_airbrake
   end
 
   inside "environments" do
