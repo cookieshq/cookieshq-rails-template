@@ -6,6 +6,7 @@ On our projects we tend to use the same gems and configurations, this template i
 How to use
 ----------
 
+`git clone git@github.com:cookieshq/rails-generator.git`
 `rails new app_name -m rails-generator/template.rb`
 
 What it does
@@ -61,7 +62,7 @@ On the **test** group:
 * Adds the require lines for gems to the rails_helper created on installation.
 * Does a basic configuration of RSpec.
 
-### What it does NOT:
+### What it does NOT (aka 'What to do after')
 
 * Create your databases. You should review the database.yml file provided and ensure it has the proper data.
 * Generate the Airbrake initializer. After creating your databases, you should run `rails generate airbrake --api-key your_key_here` to get it done.

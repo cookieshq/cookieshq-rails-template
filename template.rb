@@ -36,7 +36,7 @@ else
 end
 
 install_airbrake = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
-say("\n\tAirbrake gem will be installed, you'll need to create your databases and then 'run rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
+say("\n\tAirbrake gem will be installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
 
 install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
 
@@ -270,7 +270,7 @@ Faker::Config.locale = :"en-gb"
   config.include Formulaic::Dsl, type: :feature
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
-  
+
     RSPEC
   end
 end
