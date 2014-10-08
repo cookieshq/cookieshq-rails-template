@@ -268,6 +268,21 @@ inside "config" do
         config.action_mailer.delivery_method = :smtp
         config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
       end
+
+      # Specify locations for mails previews
+      config.action_mailer.preview_path = "spec/mailers/previews"
+
+      # Use email template for emails except on devise mails sent for admin users
+      config.to_prepare do
+        ActionMailer::Base.layout proc { |mailer|
+          if mailer.is_a?(Devise::Mailer) && mailer.scope_name == :admin_user
+            nil
+          else
+            "email"
+          end
+        }
+      end
+      
       DEV
     end
   end
@@ -347,6 +362,12 @@ Faker::Config.locale = :"en-gb"
   config.include EmailSpec::Matchers
 
     RSPEC
+  end
+
+  inside "mailers" do
+    inside "previews" do
+      create_file ".keep", ""
+    end
   end
 end
 
