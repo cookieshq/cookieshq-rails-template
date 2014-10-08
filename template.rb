@@ -135,6 +135,8 @@ inside "app" do
     inside "stylesheets" do
       remove_file "application.css"
       copy_file "application.css.scss"
+      copy_file "_variables.scss"
+      copy_file "_bootstrap_variables_overrides.scss"
     end
 
     inside "javascripts" do
