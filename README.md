@@ -3,6 +3,12 @@ The Cookies HQ Rails App Generator
 
 On our projects we tend to use the same gems and configurations, this template is created to help us set up new projects faster.
 
+Requirements
+------------
+
+1. Ruby installed. Preferabily 2.1+, but works with 2.0.0 also.
+2. Rails installed. This template was created for and tested with Rails version 4.1.
+
 How to use
 ----------
 
@@ -52,7 +58,8 @@ On the **test** group:
 
 ### Also it:
 
-* Sets `ruby 2.1.3` at the top of your `Gemfile`
+* Sets your current ruby at the top of your `Gemfile`.
+* Prompts you if you are using an outdated version of Ruby.
 * Generates a `.gitignore` file with some common files and folders that we add.
 * Puts in an `layouts/application.html.erb` equivalent written in HAML.
 * Puts in a default skeleton for JS code organization, as per told in [this post](http://cookieshq.co.uk/posts/write-maintainable-javascript-in-rails/)
@@ -69,6 +76,11 @@ On the **test** group:
 * Create your databases. You should review the database.yml file provided and ensure it has the proper data.
 * Generate the Airbrake initializer. After creating your databases, you should run `rails generate airbrake --api-key your_key_here` to get it done.
 * Init your git repo. Until we figure out how to perform actions after the binstub call is performed, we don't want to init a repo and do a first commit, then leave you with a dirty status repo. Hopefully we'll be able to fix it when Rails 4.2 is out. See [this](https://github.com/rails/rails/issues/16292) for details.
+
+Future improvements
+====================
+
+* Create a version that can be run from the raw link on github (i.e.: embedding files on the template)
 
 Working on/ TODO
 ================
