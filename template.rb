@@ -75,7 +75,7 @@ gem_group :development do
     gem 'capistrano-bundler'
   end
 
-  gem 'letter_opener'
+  gem 'mailcatcher', require: false
   gem 'html2haml', require: false if generate_devise_views
 end
 
@@ -186,8 +186,11 @@ inside "config" do
       # Action Mailer default options
       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-      # Letter Opener gem configuration
-      config.action_mailer.delivery_method = :letter_opener
+      # Setup for Mailcatcher, if present
+      if `which mailcatcher`.length > 0
+        config.action_mailer.delivery_method = :smtp
+        config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
+      end
       DEV
     end
   end
