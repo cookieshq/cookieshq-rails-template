@@ -62,6 +62,11 @@ def ask_with_default_yes(question)
   answer = ['n', 'N', 'no', 'No'].include?(answer) ? false : true
 end
 
+def ask_with_default_no(question)
+  answer = ask question
+  answer = ['y', 'Y', 'yes', 'Yes'].include?(answer) ? true : false
+end
+
 def outdated_ruby_version?
   LATEST_STABLE_RUBY.gsub('.', '').to_i > CURRENT_RUBY.gsub('.', '').to_i
 end
@@ -359,5 +364,19 @@ if outdated_ruby_version?
   say "\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n\n",  "\e[33m"
 end
 
-say("\nWe will install the rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
-say("\nAirbrake gem has been installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
+say("\nWe have installed Heroku's rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
+
+create_database = ask_with_default_no("Do you want me to create and migrate the database for you? [y/N]")
+
+if create_database
+  rake "db:create"
+  rake "db:migrate"
+
+  if install_airbrake
+    airbrake_api_key = ask("Enter your airbrake API KEY to configure Airbrake: ")
+    generate "airbrake --api-key #{airbrake_api_key}"
+  end
+
+else
+  say("\nAirbrake gem has been installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
+end
