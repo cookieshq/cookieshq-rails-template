@@ -25,7 +25,7 @@ On the **development** group:
 * Capistrano
 * Capistrano-rvm
 * Capistrano-bundler
-* Letter_opener
+* Mailcatcher
 
 On the **test** and **development** groups:
 * factory_girl_rails
@@ -55,8 +55,7 @@ On the **test** group:
 * Puts in a default skeleton for JS code organization, as per told in [this post](http://cookieshq.co.uk/posts/write-maintainable-javascript-in-rails/)
 * Puts in the `database.yml` file adapted to PostgreSQL.
 * Edits `application.rb` to add rspec and action mailer config.
-* Puts an `airbrake.rb` on initializers with only the API KEY missing.
-* Capifies the project and uncomments the bundler, rvm, assets and migrations lines in capfile.
+* If you won't use Heroku, capifies the project and uncomments the bundler, rvm, assets and migrations lines in capfile.
 * Edits `development.rb` to add action mailer config.
 * Edits `application.css(.scss)` and `application.js` to use `bootstrap`.
 * Adds the require lines for gems to the rails_helper created on installation.
@@ -78,6 +77,8 @@ Working on/ TODO
 12. [ ] Add default config for database_cleaner
 13. [ ] Add default config for formulaic
 14. [ ] Add default config for vcr
-15. [ ] Add default config for guard-rspec
-16. [ ] Remove warnings thrown by html2haml when converting devise templates.
-12. [ ] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))
+15. [x] Add default config for guard-rspec
+16. [x] Remove warnings thrown by html2haml when converting devise templates.
+17. [-] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))
+18. [x] Change letter_opener for mailcatcher
+19. [x] Install Capistrano only if user won't use Heroku
