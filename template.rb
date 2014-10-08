@@ -282,7 +282,7 @@ inside "config" do
           end
         }
       end
-      
+
       DEV
     end
   end
@@ -397,19 +397,22 @@ def run_bundle ; end
 ######################################
 
 if outdated_ruby_version?
-  say "\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n\n",  "\e[33m"
+  say "\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n", "\e[33m"
 end
 
 say("\nWe have installed Heroku's rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
+
+say("\nWe have installed Active Admin. When you run your migrations, you'll have an AdminUser with:\n\tEmail: admin@example.com\n\tPassword: password\n\n", "\e[33m")
 
 create_database = ask_with_default_no("Do you want me to create and migrate the database for you? [y/N]")
 
 if create_database
   rake "db:create"
   rake "db:migrate"
+  rake "db:test:prepare"
 
   if install_airbrake
-    airbrake_api_key = ask("Enter your airbrake API KEY to configure Airbrake: ")
+    airbrake_api_key = ask("\nEnter your airbrake API KEY to configure Airbrake: ")
     generate "airbrake --api-key #{airbrake_api_key}"
   end
 
