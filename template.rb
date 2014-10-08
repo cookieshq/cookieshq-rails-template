@@ -207,7 +207,7 @@ if install_devise
   end
 end
 
-generate "simple_form:install"
+generate "simple_form:install --bootstrap"
 
 if install_active_admin
   generate "active_admin:install"
