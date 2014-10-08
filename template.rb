@@ -221,6 +221,8 @@ end
 generate "rspec:install"
 
 inside "spec" do
+  comment_lines "rails_helper.rb", /config.fixture_path/
+
   insert_into_file "rails_helper.rb", after: "# Add additional requires below this line. Rails is not loaded until this point!\n" do
     text =  "require 'capybara/rails'\n"
     text << "require 'capybara/rspec'\n"
@@ -232,6 +234,44 @@ inside "spec" do
     text << "require 'webmock/rspec'\n"
     text << "require 'vcr'\n"
     text
+  end
+
+  insert_into_file "rails_helper.rb", after: "ActiveRecord::Migration.maintain_test_schema!\n" do
+    <<-RSPEC
+
+Capybara.javascript_driver = :webkit
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+end
+
+Faker::Config.locale = :"en-gb"
+    RSPEC
+  end
+
+  insert_into_file "rails_helper.rb", after: "RSpec.configure do |config|\n" do
+    <<-RSPEC
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  config.include Paperclip::Shoulda::Matchers
+  config.include Devise::TestHelpers, type: :controller
+  config.include Formulaic::Dsl, type: :feature
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
+  
+    RSPEC
   end
 end
 
