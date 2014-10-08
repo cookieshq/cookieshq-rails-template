@@ -202,18 +202,21 @@ inside "app" do
     end
 
     inside "javascripts" do
+      inside "main" do
+        create_file "base.js.coffee", "@Main = {}"
+      end
+      create_file "main.js", "//= require ./main/base\n//= require_tree ./main\n"
+
+      inside "shared" do
+        create_file "base.js.coffee", "@Shared = {}"
+        create_file "form.js.coffee", "@Shared.form = {}"
+        create_file "util.js.coffee", "@Shared.util = {}"
+      end
+      create_file "shared.js", "//= require ./shared/base\n//= require_tree ./shared\n"
+
       insert_into_file 'application.js', after: "//= require turbolinks\n" do
         text = "//= require bootstrap-sprockets\n"
-        text << "//= require services\n"
         text
-      end
-
-      copy_file "services.js"
-
-      inside "services" do
-        copy_file "01_base.js.coffee"
-        copy_file "form.js.coffee"
-        copy_file "util.js.coffee"
       end
     end
   end
