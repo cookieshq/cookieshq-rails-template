@@ -59,6 +59,13 @@ On the **test** group:
 * Edits `development.rb` to add action mailer config.
 * Edits `application.css(.scss)` and `application.js` to use `bootstrap`.
 * Adds the require lines for gems to the rails_helper created on installation.
+* Does a basic configuration of RSpec.
+
+### What it does NOT:
+
+* Create your databases. You should review the database.yml file provided and ensure it has the proper data.
+* Generate the Airbrake initializer. After creating your databases, you should run `rails generate airbrake --api-key your_key_here` to get it done.
+* Init your git repo. Until we figure out how to perform actions after the binstub call is performed, we don't want to init a repo and do a first commit, then leave you with a dirty status repo. Hopefully we'll be able to fix it when Rails 4.2 is out. See [this](https://github.com/rails/rails/issues/16292) for details.
 
 Working on/ TODO
 ================
@@ -73,12 +80,12 @@ Working on/ TODO
 8. [x] Make the template run install scripts/generators after bundler for **Active Admin**
 9. [x] Make the template run install scripts/generators after bundler for **Simple Form**
 10. [x] Convert devise views to haml if they are generated.
-11. [ ] Add default config for email_spec
-12. [ ] Add default config for database_cleaner
-13. [ ] Add default config for formulaic
-14. [ ] Add default config for vcr
+11. [x] Add default config for email_spec
+12. [x] Add default config for database_cleaner
+13. [x] Add default config for formulaic
+14. [x] Add default config for vcr
 15. [x] Add default config for guard-rspec
 16. [x] Remove warnings thrown by html2haml when converting devise templates.
-17. [-] Fix the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this](https://github.com/rails/rails/issues/16292))
+17. [x] "Fix" the spring binstubs call after bundling that makes git status go dirty after using the template. (Rails 4.2 will provide [how to fix this]()
 18. [x] Change letter_opener for mailcatcher
 19. [x] Install Capistrano only if user won't use Heroku
