@@ -1,8 +1,11 @@
 ######################################
 #                                    #
-# Auxiliar methods                   #
+# Auxiliar methods & constants       #
 #                                    #
 ######################################
+LATEST_STABLE_RUBY = '2.1.3'
+CURRENT_RUBY = RUBY_VERSION
+
 def source_paths
   Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'files')]
 end
@@ -10,6 +13,10 @@ end
 def ask_with_default_yes(question)
   answer = ask question
   answer = ['n', 'N', 'no', 'No'].include?(answer) ? false : true
+end
+
+def outdated_ruby_version?
+  LATEST_STABLE_RUBY.gsub('.', '').to_i > CURRENT_RUBY.gsub('.', '').to_i
 end
 
 ######################################
@@ -28,7 +35,6 @@ end
 heroku_deploy = ask_with_default_yes("Do you need to deploy this app on Heroku? [Y/n]")
 
 if heroku_deploy
-  say("\n\tWe will install the rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n\n", "\e[33m")
   capistrano_deploy = false
 else
   say("\n\tWe will install Capistrano for deployments, then.\n\n", "\e[33m")
@@ -36,8 +42,6 @@ else
 end
 
 install_airbrake = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
-say("\n\tAirbrake gem will be installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
-
 install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
 
 ######################################
@@ -47,7 +51,7 @@ install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? 
 ######################################
 
 # Specify Ruby version
-insert_into_file 'Gemfile', "\nruby '2.1.3'", after: "source 'https://rubygems.org'\n"
+insert_into_file 'Gemfile', "\nruby '#{CURRENT_RUBY}'", after: "source 'https://rubygems.org'\n"
 
 # Change sqlite3 for pg
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
@@ -293,3 +297,16 @@ def run_bundle ; end
 # git :init
 # git add: "."
 # git commit: "-a -m 'Initial commit'"
+
+######################################
+#                                    #
+# Info for the user                  #
+#                                    #
+######################################
+
+if outdated_ruby_version?
+  say "\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n\n",  "\e[33m"
+end
+
+say("\nWe will install the rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
+say("\nAirbrake gem has been installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
