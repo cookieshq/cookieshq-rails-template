@@ -117,6 +117,7 @@ run 'bundle exec cap install' if capistrano_deploy
 run "rm -rf test/"
 remove_file ".gitignore"
 copy_file '.gitignore'
+copy_file 'Guardfile' if install_guard_rspec
 
 if capistrano_deploy
   uncomment_lines 'Capfile', /'capistrano\/rvm'/
