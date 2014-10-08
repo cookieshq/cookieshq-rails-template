@@ -190,6 +190,11 @@ inside "app" do
       copy_file "application.css.scss"
       copy_file "_variables.scss"
       copy_file "_bootstrap_variables_overrides.scss"
+      create_file "_base.css.scss",   ""
+      create_file "_layout.css.scss", ""
+      create_file "_module.css.scss", ""
+      create_file "_state.css.scss",  ""
+      create_file "_theme.css.scss",  ""
     end
 
     inside "javascripts" do
