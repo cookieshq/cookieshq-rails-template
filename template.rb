@@ -124,6 +124,7 @@ gem 'airbrake' if install_airbrake
 
 gem 'activeadmin', github: 'gregbell/active_admin' if install_active_admin
 gem 'paperclip'
+gem "roadie", '~> 2.4.3'
 
 gem_group :development do
   if capistrano_deploy
@@ -191,14 +192,15 @@ inside "app" do
 
     inside "stylesheets" do
       remove_file "application.css"
-      copy_file "application.css.scss"
-      copy_file "_variables.scss"
-      copy_file "_bootstrap_variables_overrides.scss"
+      copy_file   "application.css.scss"
+      copy_file   "_variables.scss"
+      copy_file   "_bootstrap_variables_overrides.scss"
       create_file "_base.css.scss",   ""
       create_file "_layout.css.scss", ""
       create_file "_module.css.scss", ""
       create_file "_state.css.scss",  ""
       create_file "_theme.css.scss",  ""
+      copy_file   "email.css.scss"
     end
 
     inside "javascripts" do
@@ -226,6 +228,7 @@ inside "app" do
       remove_file "application.html.erb"
       copy_file "_head.html.haml"
       template "application.html.haml"
+      copy_file "email.html.haml"
     end
   end
 end
