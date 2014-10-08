@@ -239,6 +239,9 @@ def run_bundle ; end
 # Initial commit of the app          #
 #                                    #
 ######################################
-git :init
-git add: "."
-git commit: "-a -m 'Initial commit'"
+
+# We remove this until we can get the after_bundler hook working on rails 4.2
+# See: https://github.com/rails/rails/issues/16292
+# git :init
+# git add: "."
+# git commit: "-a -m 'Initial commit'"
