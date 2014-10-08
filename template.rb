@@ -185,6 +185,10 @@ end
 
 inside "app" do
   inside "assets" do
+    inside "fonts" do
+      create_file ".keep", ""
+    end
+
     inside "stylesheets" do
       remove_file "application.css"
       copy_file "application.css.scss"
@@ -242,7 +246,7 @@ inside "config" do
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
 
-    config.assets.precompile += %w( .svg .eot .woff .ttf email.css bootstrap.css )
+    config.assets.precompile += %w( .svg .eot .woff .ttf email.css )
     config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
     APP
   end
