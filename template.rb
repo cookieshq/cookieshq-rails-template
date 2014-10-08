@@ -25,10 +25,16 @@ if install_devise
 end
 
 install_active_admin = ask_with_default_yes("Do you want to install Active Admin? [Y/n]")
-heroku_deploy        = ask_with_default_yes("Do you need to deploy this app on Heroku? [Y/n]")
+heroku_deploy = ask_with_default_yes("Do you need to deploy this app on Heroku? [Y/n]")
 
-install_airbrake     = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
-say("\n\tAirbrake initializer will be set in place, you'll need to set your API_KEY in it.\n\n", "\e[33m") if install_airbrake
+if heroku_deploy
+  say("\n\tWe will install the rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n\n", "\e[33m")
+  capistrano_deploy = false
+else
+  capistrano_deploy = true
+end
+
+install_airbrake = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
 
 install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
 
@@ -45,7 +51,7 @@ insert_into_file 'Gemfile', "\nruby '2.1.3'", after: "source 'https://rubygems.o
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
 gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 
-uncomment_lines "Gemfile", /capistrano-rails/
+uncomment_lines "Gemfile", /capistrano-rails/ if capistrano_deploy
 
 gem 'devise' if install_devise
 gem 'rails_12factor', group: :production if heroku_deploy
@@ -59,9 +65,12 @@ gem 'activeadmin', github: 'gregbell/active_admin' if install_active_admin
 gem 'paperclip'
 
 gem_group :development do
-  gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
+  if capistrano_deploy
+    gem 'capistrano'
+    gem 'capistrano-rvm'
+    gem 'capistrano-bundler'
+  end
+
   gem 'letter_opener'
   gem 'html2haml', require: false if generate_devise_views
 end
@@ -94,7 +103,7 @@ end
 #                                    #
 ######################################
 run 'bundle install'
-run 'bundle exec cap install'
+run 'bundle exec cap install' if capistrano_deploy
 
 ######################################
 #                                    #
@@ -104,10 +113,13 @@ run 'bundle exec cap install'
 run "rm -rf test/"
 remove_file ".gitignore"
 copy_file '.gitignore'
-uncomment_lines 'Capfile', /'capistrano\/rvm'/
-uncomment_lines 'Capfile', /'capistrano\/bundler'/
-uncomment_lines 'Capfile', /capistrano\/rails\/assets/
-uncomment_lines 'Capfile', /capistrano\/rails\/migrations/
+
+if capistrano_deploy
+  uncomment_lines 'Capfile', /'capistrano\/rvm'/
+  uncomment_lines 'Capfile', /'capistrano\/bundler'/
+  uncomment_lines 'Capfile', /capistrano\/rails\/assets/
+  uncomment_lines 'Capfile', /capistrano\/rails\/migrations/
+end
 
 inside "app" do
   inside "assets" do
