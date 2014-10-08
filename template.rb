@@ -7,8 +7,8 @@ def source_paths
   Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'files')]
 end
 
-def ask_with_default_yes(text)
-  answer = ask text
+def ask_with_default_yes(question)
+  answer = ask question
   answer = ['n', 'N', 'no', 'No'].include?(answer) ? false : true
 end
 
@@ -31,6 +31,7 @@ if heroku_deploy
   say("\n\tWe will install the rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n\n", "\e[33m")
   capistrano_deploy = false
 else
+  say("\n\tWe will install Capistrano for deployments, then.\n\n", "\e[33m")
   capistrano_deploy = true
 end
 
@@ -52,7 +53,9 @@ insert_into_file 'Gemfile', "\nruby '2.1.3'", after: "source 'https://rubygems.o
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
 gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 
-uncomment_lines "Gemfile", /capistrano-rails/ if capistrano_deploy
+if capistrano_deploy
+  uncomment_lines "Gemfile", /capistrano-rails/
+end
 
 gem 'devise' if install_devise
 gem 'rails_12factor', group: :production if heroku_deploy
