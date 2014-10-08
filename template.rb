@@ -113,6 +113,7 @@ gem 'rails_12factor', group: :production if heroku_deploy
 
 gem 'haml-rails'
 gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'airbrake' if install_airbrake
 
@@ -188,7 +189,7 @@ inside "app" do
 
     inside "javascripts" do
       insert_into_file 'application.js', after: "//= require turbolinks\n" do
-        text = "//= require bootstrap\n"
+        text = "//= require bootstrap-sprockets\n"
         text << "//= require services\n"
         text
       end
