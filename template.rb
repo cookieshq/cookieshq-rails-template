@@ -203,7 +203,7 @@ if install_devise
   generate "devise user"  if generate_devise_user
   if generate_devise_views
     generate "devise:views"
-    run "for file in app/views/devise/**/*.erb; do html2haml -e $file ${file%erb}haml && rm $file; done"
+    run "for file in app/views/devise/**/*.erb; do html2haml -e $file ${file%erb}haml > /dev/null 2>&1 && rm $file; done"
   end
 end
 
