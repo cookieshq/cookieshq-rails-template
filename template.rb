@@ -74,8 +74,8 @@ end
 install_devise = ask_with_default_yes("Do you want to install Devise? [Y/n]")
 
 if install_devise
-  generate_devise_user  = ask_with_default_yes("Do you want to create a devise user class? [Y/n]")
-  generate_devise_views = ask_with_default_yes("Do you want to generate devise views? [Y/n]")
+  generate_devise_user  = ask_with_default_yes("Do you want to create a Devise User Class? [Y/n]")
+  generate_devise_views = ask_with_default_yes("Do you want to generate Devise views? [Y/n]")
   install_active_admin  = ask_with_default_yes("Do you want to install Active Admin? [Y/n]")
 end
 
