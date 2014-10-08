@@ -137,14 +137,15 @@ inside "app" do
       insert_into_file 'application.js', after: "//= require turbolinks\n" do
         text = "//= require bootstrap\n"
         text << "//= require services\n"
-        text << "//= require_tree ./services\n"
         text
       end
 
-      copy_file "services.js.coffee"
+      copy_file "services.js"
+
       inside "services" do
-        copy_file "forms.js.coffee"
-        copy_file "utils.js.coffee"
+        copy_file "01_base.js.coffee"
+        copy_file "form.js.coffee"
+        copy_file "util.js.coffee"
       end
     end
   end
