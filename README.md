@@ -6,8 +6,10 @@ On our projects we tend to use the same gems and configurations, this template i
 How to use
 ----------
 
-`git clone git@github.com:cookieshq/rails-generator.git`
-`rails new app_name -m rails-generator/template.rb`
+```
+git clone git@github.com:cookieshq/rails-generator.git
+rails new app_name -m rails-generator/template.rb
+```
 
 What it does
 ------------
