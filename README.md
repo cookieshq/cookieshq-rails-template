@@ -44,7 +44,7 @@ Does not include dependencies of the gems listed!
 * Simple_form
 * Airbrake (*optional*)
 * Active Admin (*optional, if you choose to install devise*)
-* Paperclip
+* Paperclip (*optional*)
 * Roadie 2.4.3
 
 On the **production** group:
@@ -74,7 +74,7 @@ On the **test** group:
 * shoulda-matchers
 * formulaic
 * webmock
-* vcr
+* vcr (*optional*)
 
 ### Also it:
 
@@ -99,3 +99,5 @@ Future improvements
 
 * Create first capybara test that visits your root_path and expects success, so you get your first red test, and take it on from there.
 * Create a version that can be run from the raw link on github (i.e.: embedding all files on the template).
+* Create a tmuxinator file to automate the project.
+* Manage secrets with dotenv.

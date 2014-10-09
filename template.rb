@@ -93,7 +93,9 @@ else
   capistrano_deploy = true
 end
 
+install_paperclip = ask_with_default_yes("Do you want to install Paperclip? [Y/n]")
 install_airbrake = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
+install_vcr = ask_with_default_yes("Do you want to install VCR? [Y/n]")
 install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
 
 ######################################
@@ -123,7 +125,7 @@ gem 'simple_form'
 gem 'airbrake' if install_airbrake
 
 gem 'activeadmin', github: 'gregbell/active_admin' if install_active_admin
-gem 'paperclip'
+gem 'paperclip' if install_paperclip
 gem "roadie", '~> 2.4.3'
 
 gem_group :development do
@@ -156,7 +158,7 @@ gem_group :test do
   gem 'shoulda-matchers', require: false
   gem 'formulaic'
   gem 'webmock'
-  gem 'vcr'
+  gem 'vcr' if install_vcr
 end
 
 ######################################
@@ -320,9 +322,9 @@ inside "spec" do
     text << "require 'database_cleaner'\n"
     text << "require 'email_spec'\n"
     text << "require 'shoulda/matchers'\n"
-    text << "require 'paperclip/matchers'\n"
+    text << "require 'paperclip/matchers'\n" if install_paperclip
     text << "require 'webmock/rspec'\n"
-    text << "require 'vcr'\n"
+    text << "require 'vcr'\n" if install_vcr
     text
   end
 
@@ -330,14 +332,19 @@ inside "spec" do
     <<-RSPEC
 
 Capybara.javascript_driver = :webkit
+Faker::Config.locale = :"en-gb"
+    RSPEC
+  end
 
+  if install_vcr
+    insert_into_file "rails_helper.rb", after: "ActiveRecord::Migration.maintain_test_schema!\n" do
+      <<-RSPEC
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   c.hook_into :webmock # or :fakeweb
 end
-
-Faker::Config.locale = :"en-gb"
-    RSPEC
+      RSPEC
+    end
   end
 
   insert_into_file "rails_helper.rb", after: "RSpec.configure do |config|\n" do
@@ -355,13 +362,18 @@ Faker::Config.locale = :"en-gb"
     end
   end
 
-  config.include Paperclip::Shoulda::Matchers
   config.include Devise::TestHelpers, type: :controller
   config.include Formulaic::Dsl, type: :feature
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
 
     RSPEC
+  end
+
+  if install_paperclip
+    insert_into_file "rails_helper.rb", after: "Rspec.configure do |config|\n" do
+      "config.include Paperclip::Shoulda::Matchers"
+    end
   end
 
   inside "mailers" do
@@ -409,7 +421,6 @@ create_database = ask_with_default_no("Do you want me to create and migrate the 
 if create_database
   rake "db:create"
   rake "db:migrate"
-  rake "db:test:prepare"
 
   if install_airbrake
     airbrake_api_key = ask("\nEnter your airbrake API KEY to configure Airbrake: ")
