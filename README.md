@@ -38,46 +38,48 @@ List of gems installed
 
 Does not include dependencies of the gems listed!
 
-* pg to use PostgreSQL with Active Record
-* Devise (*optional*)
-* Haml-rails
-* Bootstrap-sass
-* Simple_form
-* Airbrake (*optional*)
-* Active Admin (*optional, if you choose to install devise*)
-* Paperclip (*optional*)
-* Roadie 2.4.3
+* [pg](https://github.com/ged/ruby-pg) to use PostgreSQL with Active Record
+* [devise](https://github.com/plataformatec/devise) - optional
+* [simple_form](https://github.com/plataformatec/simple_form)
+* [haml-rails](https://github.com/indirect/haml-rails)
+* [bootstrap-sass](https://github.com/twbs/bootstrap-sass)
+* [airbrake](https://github.com/airbrake/airbrake) - optional
+* [active_admin](https://github.com/activeadmin/activeadmin) - optional (available if you choose to install Devise)
+* [paperclip](https://github.com/thoughtbot/paperclip) - optional
+* [roadie 2.4.3](https://github.com/Mange/roadie/tree/2-4-stable)
 
 On the **production** group:
-* Heroku's rails_12factor gem (*optional*)
+* [rails_12factor](https://github.com/heroku/rails_12factor) - optional
 
 On the **development** group:
-* Capistrano (*if you won't use Heroku*)
-* Capistrano-rvm (*if you won't use Heroku*)
-* Capistrano-bundler (*if you won't use Heroku*)
-* Mailcatcher (*not required*)
-* Haml2Haml (*not required*, needed to convert the devise views)
+* [capistrano](https://github.com/capistrano/capistrano) (*if you won't use Heroku*)
+* [capistrano-rvm](https://github.com/capistrano/rvm) (*if you won't use Heroku*)
+* [capistrano-bundler](https://github.com/capistrano/bundler) (*if you won't use Heroku*)
+* [mailcatcher](https://github.com/sj26/mailcatcher) - not required
+* [html2haml](https://github.com/haml/html2haml) - not required (needed to convert the devise views)
+* [guard-livereload](https://github.com/guard/guard-livereload)
+* [brakeman](https://github.com/presidentbeef/brakeman)
 
 On the **test** and **development** groups:
-* factory_girl_rails
-* faker
-* rspec
-* rspec-rails
-* guard-rspec (*optional*)
-* dotenv-rails (*optional*)
+* [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails)
+* [faker](https://github.com/stympy/faker)
+* [rspec](https://github.com/rspec/rspec)
+* [rspec-rails](https://github.com/rspec/rspec-rails)
+* [guard-rspec](https://github.com/guard/guard-rspec) - optional
+* [dotenv-rails](https://github.com/bkeepers/dotenv) - optional
 
 On the **test** group:
-* capybara
-* capybara-email
-* database_cleaner
-* launchy
-* email_spec
-* capybara-webkit
-* timecop
-* shoulda-matchers
-* formulaic
-* webmock
-* vcr (*optional*)
+* [capybara](https://github.com/jnicklas/capybara)
+* [capybara-email](https://github.com/dockyard/capybara-email)
+* [capybara-webkit](https://github.com/thoughtbot/capybara-webkit)
+* [database_cleaner](https://github.com/DatabaseCleaner/database_cleaner)
+* [launchy](https://github.com/copiousfreetime/launchy)
+* [email_spec](https://github.com/bmabey/email-spec/)
+* [timecop](https://github.com/travisjeffery/timecop)
+* [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers)
+* [formulaic](https://github.com/thoughtbot/formulaic)
+* [webmock](https://github.com/bblimke/webmock)
+* [vcr](https://github.com/vcr/vcr) - optional
 
 ### Also it:
 
