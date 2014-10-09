@@ -363,6 +363,21 @@ generate "active_admin:install" if install_active_admin
 generate "rspec:install"
 
 inside "spec" do
+  inside "acceptance" do
+    create_file "routes_acceptance_spec.rb" do
+      <<-TEST
+require 'rails_helper'
+
+feature "routes acceptance spec" do
+  scenario "user visits root path" do
+    visit root_path
+    expect(page).to have_content("#{app_name}")
+  end
+end
+      TEST
+    end
+  end
+
   comment_lines "rails_helper.rb", /config.fixture_path/
 
   insert_into_file "rails_helper.rb", after: "# Add additional requires below this line. Rails is not loaded until this point!\n" do
@@ -476,6 +491,7 @@ if create_database
     generate "airbrake --api-key #{airbrake_api_key}"
   end
 
+  run "bundle exec rake spec"
 else
   say("\nAirbrake gem has been installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
 end
