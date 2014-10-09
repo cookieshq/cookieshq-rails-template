@@ -101,4 +101,5 @@ Future improvements
 ====================
 
 * Create a version that can be run from the raw link on github (i.e.: embedding all files on the template).
-* Create a tmuxinator configuration file
+* Create a tmuxinator configuration file.
+* Separate long strings into auxiliary methods, for the sake of code readability.

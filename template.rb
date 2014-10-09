@@ -220,12 +220,13 @@ if install_dotenv
     GITIGNORE
   end
 
-  create_file ".env.example" do
+  create_file "env.yml.example" do
     <<-DOTENV
 # Use dotenv to keep your environment variables safe and separated
 # Read more at:
 # https://github.com/bkeepers/dotenv/blob/master/README.md
 # Remember to configure manually dotenv in your app!
+# Once finished, remember to copy this file into a new one called just .env
     DOTENV
   end
 end
