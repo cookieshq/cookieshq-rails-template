@@ -367,8 +367,8 @@ end
 
 generate "simple_form:install --bootstrap"
 generate "active_admin:install" if install_active_admin
-run "guard init livereload"
-run "guard init rspec" if install_guard_rspec
+run "bundle exec guard init livereload"
+run "bundle exec guard init rspec" if install_guard_rspec
 generate "rspec:install"
 
 ################
