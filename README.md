@@ -62,6 +62,7 @@ On the **test** and **development** groups:
 * rspec
 * rspec-rails
 * guard-rspec (*optional*)
+* dotenv-rails (*optional*)
 
 On the **test** group:
 * capybara
@@ -100,4 +101,3 @@ Future improvements
 * Create first capybara test that visits your root_path and expects success, so you get your first red test, and take it on from there.
 * Create a version that can be run from the raw link on github (i.e.: embedding all files on the template).
 * Create a tmuxinator file to automate the project.
-* Manage secrets with dotenv.
