@@ -112,9 +112,7 @@ insert_into_file 'Gemfile', "\nruby '#{CURRENT_RUBY}'", after: "source 'https://
 gsub_file "Gemfile", /^# Use sqlite3 as the database for Active Record$/, "# Use Postgre as the database for Active Record"
 gsub_file "Gemfile", /^gem\s+["']sqlite3["'].*$/, "gem 'pg'"
 
-if capistrano_deploy
-  uncomment_lines "Gemfile", /capistrano-rails/
-end
+uncomment_lines "Gemfile", /capistrano-rails/ if capistrano_deploy
 
 gem 'devise' if install_devise
 gem 'rails_12factor', group: :production if heroku_deploy
@@ -353,6 +351,7 @@ end
 if install_devise
   generate "devise:install"
   generate "devise user"  if generate_devise_user
+
   if generate_devise_views
     generate "devise:views"
     run "for file in app/views/devise/**/*.erb; do html2haml -e $file ${file%erb}haml > /dev/null 2>&1 && rm $file; done"
@@ -360,11 +359,7 @@ if install_devise
 end
 
 generate "simple_form:install --bootstrap"
-
-if install_active_admin
-  generate "active_admin:install"
-end
-
+generate "active_admin:install" if install_active_admin
 generate "rspec:install"
 
 inside "spec" do
@@ -391,16 +386,14 @@ Faker::Config.locale = :"en-gb"
     RSPEC
   end
 
-  if install_vcr
-    insert_into_file "rails_helper.rb", after: "ActiveRecord::Migration.maintain_test_schema!\n" do
-      <<-RSPEC
+  insert_into_file "rails_helper.rb", after: "ActiveRecord::Migration.maintain_test_schema!\n" do
+    <<-RSPEC
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   c.hook_into :webmock # or :fakeweb
 end
-      RSPEC
-    end
-  end
+    RSPEC
+  end if install_vcr
 
   insert_into_file "rails_helper.rb", after: "RSpec.configure do |config|\n" do
     <<-RSPEC
@@ -425,11 +418,9 @@ end
     RSPEC
   end
 
-  if install_paperclip
-    insert_into_file "rails_helper.rb", after: "Rspec.configure do |config|\n" do
-      "config.include Paperclip::Shoulda::Matchers"
-    end
-  end
+  insert_into_file "rails_helper.rb", after: "Rspec.configure do |config|\n" do
+    "config.include Paperclip::Shoulda::Matchers"
+  end if install_paperclip
 
   inside "mailers" do
     inside "previews" do
@@ -463,9 +454,7 @@ def run_bundle ; end
 #                                    #
 ######################################
 
-if outdated_ruby_version?
-  say "\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n", "\e[33m"
-end
+say("\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version is #{LATEST_STABLE_RUBY}. Should you want to change it, please amend the Gemfile accordingly.\n", "\e[33m") if outdated_ruby_version?
 
 say("\nWe have installed Heroku's rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
 
