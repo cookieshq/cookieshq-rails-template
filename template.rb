@@ -463,7 +463,7 @@ say("\nPlease note that you're using ruby #{CURRENT_RUBY}. Latest ruby version i
 
 say("\nWe have installed Heroku's rails_12factor gem for you. You'll still need to configure your Heroku account and create your app.\n", "\e[33m") if heroku_deploy
 
-say("\nWe have installed Active Admin. When you run your migrations, you'll have an AdminUser with:\n\tEmail: admin@example.com\n\tPassword: password\n\n", "\e[33m")
+say("\nWe have installed Active Admin. When you run your migrations, you'll have an AdminUser with:\n\tEmail: admin@example.com\n\tPassword: password\n\n", "\e[33m") if install_active_admin
 
 create_database = ask_with_default_no("Do you want me to create and migrate the database for you? [y/N]")
 
