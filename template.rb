@@ -136,6 +136,8 @@ gem_group :development do
 
   gem 'mailcatcher', require: false
   gem 'html2haml', require: false if generate_devise_views
+  gem 'guard-livereload', require: false
+  gem 'brakeman', require: false
 end
 
 gem_group :development, :test do
@@ -361,8 +363,12 @@ end
 
 generate "simple_form:install --bootstrap"
 generate "active_admin:install" if install_active_admin
+run "guard init livereload"
 generate "rspec:install"
 
+################
+# Rspec Config #
+################
 inside "spec" do
   inside "acceptance" do
     create_file "routes_acceptance_spec.rb" do
