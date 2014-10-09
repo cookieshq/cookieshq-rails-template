@@ -410,13 +410,18 @@ end
     end
   end
 
-  config.include Devise::TestHelpers, type: :controller
   config.include Formulaic::Dsl, type: :feature
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
 
     RSPEC
   end
+
+  insert_into_file "rails_helper.rb", after: "Rspec.configure do |config|\n" do
+    <<-RSPEC
+  config.include Devise::TestHelpers, type: :controller
+    RSPEC
+  end if install_devise
 
   insert_into_file "rails_helper.rb", after: "Rspec.configure do |config|\n" do
     "config.include Paperclip::Shoulda::Matchers"
