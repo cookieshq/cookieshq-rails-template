@@ -29,6 +29,7 @@ It will ask you if you want to install certain gems and install them for you, al
 What to do after
 ----------------
 
+* Fix the first failing test that is created if you choose to create your database. It's basically about adding a root on your `routes.rb`.
 * Init your git repo. Until we figure out how to perform actions after the binstub call is performed, we don't want to init a repo and do a first commit, then leave you with a dirty status repo. Hopefully we'll be able to fix it when Rails 4.2 is out. See [this](https://github.com/rails/rails/issues/16292) for details.
 
 
@@ -54,7 +55,8 @@ On the **development** group:
 * Capistrano (*if you won't use Heroku*)
 * Capistrano-rvm (*if you won't use Heroku*)
 * Capistrano-bundler (*if you won't use Heroku*)
-* Mailcatcher
+* Mailcatcher (*not required*)
+* Haml2Haml (*not required*, needed to convert the devise views)
 
 On the **test** and **development** groups:
 * factory_girl_rails
@@ -82,22 +84,21 @@ On the **test** group:
 * Sets your current ruby at the top of your `Gemfile`.
 * Warns you if you are using an outdated version of Ruby.
 * Generates a `.gitignore` file with some common files and folders that we add.
-* Puts in an `layouts/application.html.erb` equivalent written in HAML with some nice additions (viewport, etc)
 * Puts in a default skeleton for JS code organization, as per told in [this post](http://cookieshq.co.uk/posts/write-maintainable-javascript-in-rails/)
 * Puts in an email template and style as per told in [this post](http://cookieshq.co.uk/posts/how-to-style-emails-with-rails-and-roadie/)
-* Puts in the `database.yml` file adapted to PostgreSQL.
-* Edits `application.rb` to add rspec and action mailer config.
-* If you won't use Heroku, capifies the project and uncomments the bundler, rvm, assets and migrations lines in `Capfile`.
-* Edits `development.rb` to add action mailer config.
+* Creates a stylesheet skeleton that is [SMAC compliant](https://smacss.com/book/categorizing).
 * Edits `application.css(.scss)` and `application.js` to use `bootstrap`.
-* Creates a stylesheet skeletong that is [SMAC compliant](https://smacss.com/book/categorizing).
-* Adds the require lines for gems to the rails_helper created on installation.
+* Puts in an `layouts/application.html.erb` equivalent written in HAML with some nice additions (viewport, etc)
+* Puts in the `database.yml` file adapted to PostgreSQL.
+* Creates your `development` and `test` databases (optional)
+* Edits `application.rb` to add rspec and action mailer config.
+* Edits `development.rb` to add action mailer config.
 * Does a basic configuration of RSpec.
-
+* Creates a test and runs it (it will fail) to get your TDD/BDD on ;)
+* If you won't use Heroku, capifies the project and uncomments the bundler, rvm, assets and migrations lines in `Capfile`.
 
 Future improvements
 ====================
 
-* Create first capybara test that visits your root_path and expects success, so you get your first red test, and take it on from there.
 * Create a version that can be run from the raw link on github (i.e.: embedding all files on the template).
-* Create a tmuxinator file to automate the project.
+* Create a tmuxinator configuration file
