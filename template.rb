@@ -93,11 +93,11 @@ else
   capistrano_deploy = true
 end
 
-install_paperclip = ask_with_default_yes("Do you want to install Paperclip? [Y/n]")
-install_airbrake = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
-install_vcr = ask_with_default_yes("Do you want to install VCR? [Y/n]")
+install_paperclip   = ask_with_default_yes("Do you want to install Paperclip? [Y/n]")
+install_airbrake    = ask_with_default_yes("Do you want to install Airbrake? [Y/n]")
+install_vcr         = ask_with_default_yes("Do you want to install VCR? [Y/n]")
 install_guard_rspec = ask_with_default_yes("Do you want to install Guard-Rspec? [Y/n]")
-install_dotenv = ask_with_default_yes("Do you want to install Dotenv [Y/n]")
+install_dotenv      = ask_with_default_yes("Do you want to install Dotenv [Y/n]")
 
 ######################################
 #                                    #
