@@ -468,8 +468,8 @@ say("\nWe have installed Active Admin. When you run your migrations, you'll have
 create_database = ask_with_default_no("Do you want me to create and migrate the database for you? [y/N]")
 
 if create_database
-  rake "db:create"
-  rake "db:migrate"
+  run "bundle exec rake db:create"
+  run "bundle exec rake db:migrate"
 
   if install_airbrake
     airbrake_api_key = ask("\nEnter your airbrake API KEY to configure Airbrake: ")
