@@ -285,9 +285,12 @@ inside "app" do
   inside "views" do
     inside "layouts" do
       remove_file "application.html.erb"
-      copy_file "_head.html.haml"
-      template "application.html.haml"
+      copy_file "application.html.haml"
       copy_file "email.html.haml"
+    end
+
+    inside "shared" do
+      template "_head.html.haml"
     end
   end
 end
