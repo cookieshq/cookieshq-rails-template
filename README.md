@@ -98,10 +98,10 @@ On the **test** group:
 * Does a basic configuration of RSpec.
 * Creates a test and runs it (it will fail) to get your TDD/BDD on ;)
 * If you won't use Heroku, capifies the project and uncomments the bundler, rvm, assets and migrations lines in `Capfile`.
+* If you choose to, it will create a [tmuxinator](https://github.com/tmuxinator/tmuxinator) configuration file on the root of the project, add it to the gitignore and link it on the `~/tmuxinator/` folder. Keep in mind that it wont install the tmuxinator gem, nor tmux, for you.
 
 Future improvements
 ====================
 
 * Create a version that can be run from the raw link on github (i.e.: embedding all files on the template).
-* Create a tmuxinator configuration file.
 * Separate long strings into auxiliary methods, for the sake of code readability.
