@@ -71,6 +71,49 @@ def outdated_ruby_version?
   LATEST_STABLE_RUBY.gsub('.', '').to_i > CURRENT_RUBY.gsub('.', '').to_i
 end
 
+def add_tmuxinator_file
+  current_dir = Dir.pwd + '/'
+  create_file ".#{app_name}.tmx.yml" do
+    <<-TMUX
+# ~/.tmuxinator/#{app_name}.yml
+
+name: #{app_name}
+root: #{current_dir}
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+  - editor: vim
+  - server: bundle exec rails s
+  - console: bundle exec rails c
+  - terminal:
+    TMUX
+  end
+end
+
+def gitignore_tmuxinator
+  insert_into_file ".gitignore", after: "/config/secrets.yml\n" do
+    <<-GITIGNORE
+
+# Ignore Tmuxinator file
+.#{app_name}.tmx.yml
+    GITIGNORE
+  end
+end
+
 ######################################
 #                                    #
 # Prompt the user for options        #
@@ -509,4 +552,13 @@ if create_database
 else
   say("\nAirbrake gem has been installed, you'll need to create your databases and then run 'rails generate airbrake --api-key your_key_here' to set it up.\n\n", "\e[33m") if install_airbrake
 
+end
+
+create_tmuxinator_file = ask_with_default_no("Do you want to create a tmuxinator file? [y/N]")
+
+if create_tmuxinator_file
+  add_tmuxinator_file
+  run "mkdir -p ~/.tmuxinator/"
+  run "ln .#{app_name}.tmx.yml ~/.tmuxinator/#{app_name}.yml"
+  gitignore_tmuxinator
 end
