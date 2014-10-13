@@ -50,6 +50,8 @@
 # Auxiliar methods & constants       #
 #                                    #
 ######################################
+require 'securerandom'
+
 LATEST_STABLE_RUBY = '2.1.3'
 CURRENT_RUBY = RUBY_VERSION
 
@@ -413,6 +415,27 @@ generate "active_admin:install" if install_active_admin
 run "bundle exec guard init livereload"
 run "bundle exec guard init rspec" if install_guard_rspec
 generate "rspec:install"
+
+#################
+# Devise config #
+#################
+
+if install_devise
+  devise_secret = IO.readlines("config/initializers/devise.rb")[6].split(" = ")[1].gsub("'","")
+  insert_into_file 'config/secrets.yml',
+                  "  devise_secret: #{devise_secret}",
+                  after: "development:\n"
+  insert_into_file 'config/secrets.yml',
+                  "  devise_secret: #{SecureRandom.hex(64)}\n",
+                  after: "test:\n"
+  insert_into_file 'config/secrets.yml',
+                  "  devise_secret: <%= ENV[\"DEVISE_SECRET\"] %>\n",
+                  after: "production:\n"
+  insert_into_file 'config/initializers/devise.rb',
+                   "  config.secret_key = Rails.application.secrets.devise_secret\n",
+                   after: "# confirmation, reset password and unlock tokens in the database.\n"
+end
+
 
 ################
 # Rspec Config #
