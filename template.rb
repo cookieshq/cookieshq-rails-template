@@ -107,7 +107,7 @@ windows:
 end
 
 def gitignore_tmuxinator
-  insert_into_file ".gitignore", after: "/config/secrets.yml\n" do
+  insert_into_file ".gitignore", after: ".DS_Store\n" do
     <<-GITIGNORE
 
 # Ignore Tmuxinator file
@@ -247,13 +247,10 @@ create_file '.gitignore' do
 
 # Ignore DS_Store
 .DS_Store
-
-# Ignore secrets
-/config/secrets.yml
   GITIGNORE
 end
 
-insert_into_file ".gitignore", after: "/config/secrets.yml\n" do
+insert_into_file ".gitignore", after: ".DS_Store\n" do
   <<-GITIGNORE
 
 # Ignore Paperclip uploads
@@ -262,7 +259,7 @@ insert_into_file ".gitignore", after: "/config/secrets.yml\n" do
 end if install_paperclip
 
 if install_dotenv
-  insert_into_file ".gitignore", after: "/config/secrets.yml\n" do
+  insert_into_file ".gitignore", after: ".DS_Store\n" do
     <<-GITIGNORE
 
 # Ignore dotenv files
